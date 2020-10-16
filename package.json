@@ -54,6 +54,7 @@
     "ml-array-median": "^1.1.1",
     "ml-cart": "^2.0.0",
     "ml-matrix": "^6.1.2",
-    "random-js": "^2.1.0"
+    "random-js": "^2.1.0",
+    "setimmediate": "^1.0.5"
   }
 }

@@ -6,6 +6,10 @@ import { Matrix, WrapperMatrix2D, MatrixTransposeView, MatrixColumnSelectionView
 
 import * as Utils from './utils';
 
+import 'setimmediate';
+import { promisify } from 'util';
+const yieldImmediate = promisify(setImmediate);
+
 /**
  * @class RandomForestBase
  */
@@ -55,7 +59,7 @@ export class RandomForestBase {
    * @param {Matrix|Array} trainingSet
    * @param {Array} trainingValues
    */
-  train(trainingSet, trainingValues) {
+  async train(trainingSet, trainingValues) {
     trainingSet = Matrix.checkMatrix(trainingSet);
 
     this.maxFeatures = this.maxFeatures || trainingSet.columns;
@@ -102,6 +106,8 @@ export class RandomForestBase {
       this.indexes[i] = res.usedIndex;
       this.estimators[i] = new Estimator(this.treeOptions);
       this.estimators[i].train(X, y);
+
+      await yieldImmediate();
     }
   }
 
