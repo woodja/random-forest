@@ -1,21 +1,23 @@
 {
   "name": "ml-random-forest",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Random forest for classification and regression",
   "main": "random-forest.js",
   "module": "src/index.js",
   "files": [
     "src",
-    "random-forest.js"
+    "random-forest.js",
+    "types"
   ],
   "scripts": {
     "compile": "rollup -c",
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "prepublishOnly": "npm run compile",
-    "test": "npm run test-coverage && npm run eslint",
-    "test-only": "jest",
-    "test-coverage": "jest --coverage"
+    "prepack": "npm run compile",
+    "prettier": "prettier --check src",
+    "prettier-write": "prettier --write src",
+    "test": "npm run test-only && npm run eslint && npm run prettier",
+    "test-only": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -33,28 +35,29 @@
   ],
   "author": "Jefferson Hernandez",
   "license": "MIT",
+  "types": "types/types.d.ts",
   "bugs": {
     "url": "https://github.com/renashall/random-forest/issues"
   },
   "homepage": "https://github.com/renashall/random-forest#readme",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "benchmark": "^2.1.4",
-    "eslint": "^6.0.1",
-    "eslint-config-cheminfo": "^1.20.1",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jest": "^22.7.1",
-    "jest": "^24.8.0",
-    "ml-dataset-iris": "^1.0.0",
-    "npm-run-all": "^4.0.2",
-    "rollup": "^1.16.3"
+    "eslint": "^8.10.0",
+    "eslint-config-cheminfo": "^7.2.2",
+    "jest": "^27.5.1",
+    "ml-dataset-iris": "^1.2.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "rollup": "^2.68.0"
   },
   "dependencies": {
-    "ml-array-mean": "^1.1.1",
-    "ml-array-median": "^1.1.1",
-    "ml-cart": "^2.0.0",
-    "ml-matrix": "^6.1.2",
-    "random-js": "^2.1.0",
-    "setimmediate": "^1.0.5"
+    "setimmediate": "^1.0.5",
+    "ml-array-mean": "^1.1.6",
+    "ml-array-median": "^1.1.6",
+    "ml-array-mode": "^1.1.5",
+    "ml-cart": "^2.1.1",
+    "ml-matrix": "^6.9.0",
+    "random-js": "^2.1.0"
   }
 }
