@@ -175,9 +175,7 @@ export class RandomForestBase {
       this.estimators[i] = new Estimator(this.treeOptions);
       this.estimators[i].train(X, y);
 
-<<<<<<< HEAD
       await yieldImmediate();
-=======
       if (!this.noOOB && this.useSampleBagging) {
         let xoob = new MatrixColumnSelectionView(Xoob, this.indexes[i]);
         oobResults[i] = {
@@ -192,7 +190,6 @@ export class RandomForestBase {
         trainingValues,
         this.selection.bind(this),
       );
->>>>>>> 7c75d32671e1805ebab35c1da2847a63e025ab96
     }
   }
 
