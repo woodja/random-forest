@@ -5,17 +5,18 @@ import { RandomForestBase } from './RandomForestBase';
 
 const selectionMethods = {
   mean: arrayMean,
-  median: arrayMedian
+  median: arrayMedian,
 };
 
 const defaultOptions = {
   maxFeatures: 1.0,
   replacement: false,
-  nEstimators: 10,
+  nEstimators: 50,
   treeOptions: {},
   selectionMethod: 'mean',
   seed: 42,
-  useSampleBagging: false
+  useSampleBagging: true,
+  noOOB: false,
 };
 
 /**
@@ -32,10 +33,11 @@ export class RandomForestRegression extends RandomForestBase {
    *        * if is a float between (0, 1), it takes the percentage of features.
    * @param {boolean} [options.replacement=true] - use replacement over the sample features.
    * @param {number} [options.seed=42] - seed for feature and samples selection, must be a 32-bit integer.
-   * @param {number} [options.nEstimators=10] - number of estimator to use.
+   * @param {number} [options.nEstimators=50] - number of estimator to use.
    * @param {object} [options.treeOptions={}] - options for the tree classifier, see [ml-cart]{@link https://mljs.github.io/decision-tree-cart/}
    * @param {string} [options.selectionMethod="mean"] - the way to calculate the prediction from estimators, "mean" and "median" are supported.
-   * @param {boolean} [options.useSampleBagging=false] - use bagging over training samples.
+   * @param {boolean} [options.useSampleBagging=true] - use bagging over training samples.
+   * @param {number} [options.maxSamples=null] - if null, then draw X.shape[0] samples. If int, then draw maxSamples samples. If float, then draw maxSamples * X.shape[0] samples. Thus, maxSamples should be in the interval (0.0, 1.0].
    * @param {object} model - for load purposes.
    */
   constructor(options, model) {
@@ -44,7 +46,6 @@ export class RandomForestRegression extends RandomForestBase {
       this.selectionMethod = model.selectionMethod;
     } else {
       options = Object.assign({}, defaultOptions, options);
-
       if (
         !(
           options.selectionMethod === 'mean' ||
@@ -52,7 +53,7 @@ export class RandomForestRegression extends RandomForestBase {
         )
       ) {
         throw new RangeError(
-          `Unsupported selection method ${options.selectionMethod}`
+          `Unsupported selection method ${options.selectionMethod}`,
         );
       }
 
@@ -77,11 +78,11 @@ export class RandomForestRegression extends RandomForestBase {
    * @return {object} - Current model.
    */
   toJSON() {
-    var baseModel = super.toJSON();
+    let baseModel = super.toJSON();
     return {
       baseModel: baseModel,
       selectionMethod: this.selectionMethod,
-      name: 'RFRegression'
+      name: 'RFRegression',
     };
   }
 
